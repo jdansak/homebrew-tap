@@ -1,7 +1,7 @@
 class CanvasScraper < Formula
   desc "CLI tool to scrape grades and assignments from Canvas LMS"
   homepage "https://github.com/jdansak/Canvas-Scraper"
-  version "1.1.1"
+  version "1.1.2"
   license "MIT"
 
   head do
@@ -11,25 +11,25 @@ class CanvasScraper < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.1/canvas-scraper-v1.1.1-darwin-arm64.tar.gz"
-      sha256 "a9c0094f3706d47b69743780641b66c6df61f3735ab7b5105331fcacc608b235"
+      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.2/canvas-scraper-v1.1.2-darwin-arm64.tar.gz"
+      sha256 "67138cedb28ec4f3bb7462312d4d3497e6a91ad53472e0c3b9bd5aac71daa470"
     end
 
     on_intel do
-      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.1/canvas-scraper-v1.1.1-darwin-amd64.tar.gz"
-      sha256 "3770b44be13332779cd8d67156e46ebfb9aef6856422c2cc4565a767942b3403"
+      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.2/canvas-scraper-v1.1.2-darwin-amd64.tar.gz"
+      sha256 "97a8c168cf6a1af32b3f6489acc59db6d7a2367750ce5e354e78464996c4ebed"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.1/canvas-scraper-v1.1.1-linux-arm64.tar.gz"
-      sha256 "98d43c2dfb5507ad74440e6433d795f3dd700536c3c9e92bea2ab72bcb1ad6e5"
+      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.2/canvas-scraper-v1.1.2-linux-arm64.tar.gz"
+      sha256 "410eb9b404f19be594bc985337a3cffb578befc3c2b910ee24094aebd6d4bf74"
     end
 
     on_intel do
-      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.1/canvas-scraper-v1.1.1-linux-amd64.tar.gz"
-      sha256 "a0ba1c34ff80ffffc7288e3a1c5233507575d7cc8b543b128a34f4f7b58aca4d"
+      url "https://github.com/jdansak/Canvas-Scraper/releases/download/v1.1.2/canvas-scraper-v1.1.2-linux-amd64.tar.gz"
+      sha256 "feda14f77f99b7b740e3be218913073b0f546c3c588c9e7e2420507d70a14024"
     end
   end
 
@@ -42,7 +42,7 @@ class CanvasScraper < Formula
   end
 
   test do
-    assert_match "v1.1.1", shell_output("#{bin}/canvas-scraper --version")
+    assert_match "v1.1.2", shell_output("#{bin}/canvas-scraper --version")
     assert_match "USAGE:", shell_output("#{bin}/canvas-scraper --help")
   end
 end
