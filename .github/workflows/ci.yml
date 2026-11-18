@@ -15,8 +15,9 @@ jobs:
       - name: Set up tap in Homebrew
         run: |
           TAP_DIR="$(brew --repository)/Library/Taps/jdansak/homebrew-tap"
+          rm -rf "${TAP_DIR}"
           mkdir -p "$(dirname "${TAP_DIR}")"
-          ln -sfn "${GITHUB_WORKSPACE}" "${TAP_DIR}"
+          git clone "${GITHUB_WORKSPACE}" "${TAP_DIR}"
           brew trust jdansak/tap
 
       - name: Style check
