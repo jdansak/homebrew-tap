@@ -41,6 +41,6 @@ class CanvasScraper < Formula
   end
 
   test do
-    assert_match "Usage", shell_output("#{bin}/canvas-scraper --help 2>&1")
+    assert_match "USAGE:", shell_output("#{bin}/canvas-scraper --help")
   end
 end
