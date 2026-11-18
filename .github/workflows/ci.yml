@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up tap in Homebrew
+        run: |
+          TAP_DIR="$(brew --repository)/Library/Taps/jdansak/homebrew-tap"
+          mkdir -p "$(dirname "${TAP_DIR}")"
+          ln -sfn "${GITHUB_WORKSPACE}" "${TAP_DIR}"
+          brew trust jdansak/tap
+
+      - name: Style check
+        run: |
+          brew style jdansak/tap
+
+      - name: Audit formulas
+        run: |
+          for f in Formula/*.rb; do
+            name="$(basename "$f" .rb)"
+            echo "::group::Auditing ${name}"
+            brew audit --formula "jdansak/tap/${name}"
+            echo "::endgroup::"
+          done
+
+      - name: Test prebuilt formula install (canvas-scraper)
+        run: |
+          brew install jdansak/tap/canvas-scraper
+          brew test jdansak/tap/canvas-scraper

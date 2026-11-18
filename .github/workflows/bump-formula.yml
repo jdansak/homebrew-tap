@@ -1,0 +1,62 @@
+name: Bump Formula
+
+on:
+  repository_dispatch:
+    types: [bump-formula]
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: "Formula name (without .rb)"
+        required: true
+        type: string
+      repo:
+        description: "Upstream GitHub repository (owner/repo)"
+        required: true
+        type: string
+      tag:
+        description: "Release tag (e.g. v1.0.1)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve inputs
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            {
+              echo "formula=${{ github.event.client_payload.formula }}"
+              echo "repo=${{ github.event.client_payload.repo }}"
+              echo "tag=${{ github.event.client_payload.tag }}"
+            } >> "$GITHUB_OUTPUT"
+          else
+            {
+              echo "formula=${{ inputs.formula }}"
+              echo "repo=${{ inputs.repo }}"
+              echo "tag=${{ inputs.tag }}"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update formula
+        run: |
+          ./scripts/bump-formula.sh \
+            "${{ steps.vars.outputs.formula }}" \
+            "${{ steps.vars.outputs.repo }}" \
+            "${{ steps.vars.outputs.tag }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "${{ steps.vars.outputs.formula }}: update to ${{ steps.vars.outputs.tag }}"
+          branch: "bump/${{ steps.vars.outputs.formula }}-${{ steps.vars.outputs.tag }}"
+          title: "${{ steps.vars.outputs.formula }} ${{ steps.vars.outputs.tag }}"
+          body: |
+            Automated formula update for `${{ steps.vars.outputs.formula }}` to `${{ steps.vars.outputs.tag }}` from `${{ steps.vars.outputs.repo }}`.
